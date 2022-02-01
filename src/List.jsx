@@ -5,13 +5,19 @@ import {nanoid} from 'nanoid';
 function List() {
   const [list, setList] = useState();
   const [aside, setAside] = useState();
+  const [isLoading, setLoading] = useState(false);
 
   function getList() {
     fetch('https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/users.json').then(response => response.json()).then(result => setList(result));
   }
 
   function getItem(id) {
-    fetch(`https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${id}.json`).then(response => response.json()).then(result => setAside(result));
+    setLoading(true);
+    fetch(`https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${id}.json`).then(response => response.json()).then(result => {
+      setAside(result);
+      setLoading(false);
+      }
+    );
   }
 
   function handleClick(evt) {
@@ -34,7 +40,14 @@ function List() {
             {list?.map(item => <button className="list-group-item" key={nanoid()} id={item.id} onClick={handleClick}>{item.name}</button>)}
           </ul>
         </div>
-        { aside ? 
+        {isLoading ? 
+          <div className="card" style={{width: '40%', margin:'5%'}}>
+          <div className="card-body">
+            <h2 className="card-title">Loading</h2>
+          </div>
+        </div>
+        : false}
+        { aside && !isLoading ? 
         <div className="card" style={{width: '40%', margin:'5%'}}>
           <img src={aside.avatar} className="card-img-top" alt="..." />
           <div className="card-body">
