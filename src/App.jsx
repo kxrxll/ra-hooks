@@ -1,9 +1,10 @@
 import React from 'react';
-import './bootstrap.css';
+import List from './List';
 
 function App() {
   return (
     <>
+      <List/>
     </>
   )
 }
