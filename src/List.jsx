@@ -13,7 +13,9 @@ function List() {
 
   function getItem(id) {
     setLoading(true);
-    fetch(`https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${id}.json`).then(response => response.json()).then(result => {
+    fetch(`https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${id}.json`).then(response => {
+      response.ok ? response.json() : setLoading(false);
+    }).then(result => {
       setAside(result);
       setLoading(false);
       }
